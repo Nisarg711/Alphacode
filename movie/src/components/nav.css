@@ -7,7 +7,7 @@
     width: 100%;
     display: flex;
     background-color: gray;
-    position: fixed;
+    position: absolute;
     top: 0px;
    background-color: rgb(159, 156, 156);
    align-items: center;
