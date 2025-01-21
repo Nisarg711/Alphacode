@@ -1,0 +1,133 @@
+.signup{
+    background: rgb(241, 220, 247);
+    background: linear-gradient(0deg, rgba(247,220,220,1) 32%, rgba(238,226,249,1) 100%);
+    height: 100vh;
+}
+.container3{
+    background-color: rgb(201 164 233);
+    position: absolute;
+    display: flex
+;
+    justify-content: center;
+    top: 20%;
+    width: 70%;
+    left: 15%;
+    border-radius: 20px;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+}
+.img2{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container3{
+    animation: bg 0.9s;
+}
+@keyframes bg{
+    from{
+        background-color: rgb(228, 214, 239);
+    }
+    to{
+        background-color: rgb(201 164 233);
+    }
+}
+
+.img4{
+  animation: move 1s;
+}
+@keyframes move {
+   from{
+    transform: translateX(-75%);
+    display: none;
+   }
+   to{
+    transform: translateX((0%));
+    display: block;
+   }
+}
+.motion{
+    animation: movefr 1s;
+}
+.motion2{
+    animation: movebt 1s;
+}
+
+@keyframes movebt{
+    from{
+        transform: translateY(300%);
+    }
+    to{
+        transform: translateY((0%));
+    }
+}
+@keyframes movefr{
+    from{
+        transform: translateX(75%);
+    }
+    to{
+        transform: translateX(0%);
+    }
+}
+.moveht{
+    animation: movetp 0.9s;
+}
+@keyframes movetp{
+    from{
+        transform: translateY(-300%);
+    }
+    to{
+        transform: translateY(0%);
+    }
+}
+
+.signname, .pwd, .email, .btn3{
+    width: 70%;
+    margin: 20px;
+}
+.ip3, .bts{
+    width: 100%;
+    height: 35px;
+    border-radius: 5px;
+    padding: 5px;
+    border: 0cm;
+}
+.bts{
+    justify-content: center;
+    color: white;
+ background-color: rgb(143, 80, 198);;
+    width: 103%;
+}
+.bts:hover{
+    cursor: pointer;
+}
+.img4{
+    width: 100%;
+   
+}
+
+@media screen and (max-width:710px)
+{
+    .container3{
+        flex-direction: column;
+        gap: 10%;
+       top: 5%;
+    }
+    .img2, .form{
+        width: 100%;
+    }
+}
+.google{
+    text-align: center;
+}
+.img3{
+    top:-15px;
+    position: relative;
+}
