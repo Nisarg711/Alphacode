@@ -5,49 +5,52 @@ import { javascript } from '@codemirror/lang-javascript';
 import {CompletionContext} from "@codemirror/autocomplete"
 import { cpp } from '@codemirror/lang-cpp';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import './guest.css'
 import ReactMarkdown from "react-markdown"
 import { use } from 'react';
 const genAI = new GoogleGenerativeAI("AIzaSyDBZfbKP4sne84EEzPLROL8cK9fbkACzQk");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
+import {v4 as uuid} from 'uuid'
 import Markdown from 'react-markdown';
 const guest = () => {
-  //  const [loading,setloading]=useState(false);
+    const [userchat,setuser]=useState([]);
+    const [loading,setloading]=useState(false);
     const [userinput,setuserinput]=useState("");
-
+    const [sent,setsent]=useState(false);
     const [reply,setreply]=useState("");
     const [chistory,sethistory]=useState([
-        {
-            role: "user",
-            parts: [{ text: "Hello" }],
-          },
-          {
-            role: "model",
-            parts: [{ text: "Great to meet you. What would you like to know?" }],
-          },
     ])
+    const [chistory2,setchistory2]=useState([]);
     const chat = model.startChat({
         history: chistory
       });
-
+      useEffect(()=>{
+        setchistory2(chistory);
+        console.log("Chistory2 is being set");
+      },[chistory])
     const writingmsg=(e)=>{
         setuserinput(e.target.value);
     }
     const sendmessage=async()=>{
-       
+        
+        setloading(true);
         if(userinput=="")
         {
             console.log("NO message passed");
-          
+            setloading(false);
             return;
         }
-        
+        // sethistory([...chistory,{role:"user",parts:[{text:userinput}]}]);    //being set implicitly
+        setsent(true);
         console.log("SENDING MESSAge",userinput);
         const result = await chat.sendMessage(userinput);
+        setuserinput("");
+        setloading(false);
         console.log(result.response.text());
-        setreply(result.response.text());
-        sethistory([...chistory,{role:"user",parts:[{text:userinput}]},{role:"model",parts:[{text:result.response.text()}]}]);
-        console.log("CHAt is ",chistory);
+       
+        // sethistory([...chistory,{role:"model",parts:[{text:result.response.text()}]}]);   //being set implicitly
+      
+        setchistory2([...chistory]);
       
     }
     const [codelist,setcodelist]=useState([
@@ -75,9 +78,7 @@ const guest = () => {
             return e.id==str;
         })
     }
-    useEffect(()=>{
-       setCode("changing main code storage ",sample);
-    },[sample])
+    
     async function changelng(e){
         console.log("changing language to ",e.target.value);
         const selected=e.target.value;
@@ -127,15 +128,52 @@ const guest = () => {
              extensions={lng}
             onChange={onChange}
           />
-          <input type="text" value={userinput} onChange={writingmsg} />
-          <button onClick={sendmessage}>Send the message</button>
-            {
-                (
-                    <div className="reply" style={{backgroundColor:'white'}}>
-                        <Markdown>{reply}</Markdown>
+          <div className="ai">
+            <div className="aihead">
+                AI ASSISTANT
             </div>
-                )
+            <div className="response">
+             
+            {
+
+                chistory2.map((e)=>{
+                    return(
+                        e.role=="user"?(<div className="userin"><p key={uuid()}  >User: {e.parts.map((ele)=>{
+                            return ele.text;
+                           
+                        })}</p></div>):(
+                            
+                            <div key={uuid()} className="aiin"><Markdown>
+                            {e.parts.map((ele)=>{
+                           
+                           return ele.text;
+                        }).join('')}
+                            </Markdown></div>)
+                        
+                    )
+                })
             }
+            {
+                (loading) && (<>
+                   <div className='userin'><p>User: {userinput}</p></div>
+                   <div className="aiin"><p>AI typing</p></div>
+                </>
+             
+                            
+                )
+             }
+            </div>
+            <div className="inp">
+            <input type="text" className='type' value={userinput} onChange={writingmsg} />
+            <div className="chatbtn">
+            <button onClick={sendmessage} style={{width:'100%'}}>Search</button>   
+            </div>
+         
+           
+            </div>
+         
+         
+          </div>
          
         </div>
       );
