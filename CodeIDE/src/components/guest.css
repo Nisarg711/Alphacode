@@ -1,29 +1,119 @@
-.ai{
-    overflow-x: auto;
-    border-radius: 20px;
-    /* overflow: auto; */
-    /* object-fit: cover; */
-    width: 40%;
-    background-color: white;
-    height: 364px;
+.ai {
+       width: 95px;
+    border-radius: 100%;
+    background-color: rgb(103 28 209);
+    display: inline-block;
+    position: relative;
+    right: 0px;
+    /* position: absolute; */
+    top: 0px;
+    /* display: inline-block; */
+    /* position: absolute; */
+    position: fixed;
+    top: 80vh;
+    right: 25px;
+  }
+  .runbtn{
+    width: 8%;
+    border-radius: 10px;
+    background-color: #278b27;
+    position: relative;
+    color: white;
+    right: 30%;
+  }
+  .bottomfix{
+    background-color: #1f202f;
+    height: 100vh;
+    /* background-color: #141429; */
+    padding: 30px;
+    justify-content: center;
+    margin: auto;
+    border-radius: 10px;
+  }
+  .grey{
+    border-radius: 10px;
+    margin: 10px;
+    text-align: center;
+     width: 50%;
+      color: white;
+    background-color: #090916;
+  }
+  .navbar{
+    height: 35px; 
+    display: flex ; 
+    justify-content: end; 
+  }
+  .select{
+    height: 30px;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    background: gray;
+  }
+  .dropdown{
+    display: flex ;
+     align-items: center; 
+     gap: 20px;
+  }
+.cover{
+    height: 100vh;
+}
+  
+.cont {
+    position: relative;
+    height: 50vh;
+    display: flex;
+    flex-direction: row;
+  }
+  
+.close{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: 0%;
+}
+.close:hover{
+    cursor: pointer;
+}
+  .ailogo{
+       width: 95px;
+    border-radius: 100%;
+    background-color: rgb(103 28 209);
+    display: inline-block;
+    position: relative;
+    right: 0px;
+    /* position: absolute; */
+    top: 0px;
+    /* display: inline-block; */
+    /* position: absolute; */
+    position: absolute;
+    top: 85%;
+    right: 25px;
+  }
+.rel{
+    position: relative;
 }
 .response{
+    top: 8%;
+    padding-top: 6px;
     overflow-y: auto;
-    height: 250px;
+    height: 80%;
     position: relative;
     scroll-behavior: smooth;
 }
 .inp{
+    width: 96%;
     border-radius: 10px;
     position: relative;
     background-color: rgb(182, 177, 177);
-    position: relative;
-    display: flex
-;
-    padding: 8px;
+    position: absolute;
+    display: flex;
     /* top: 10px; */
-    height: 50px;
-    gap: 8px;
+    height: 10%;
+    gap: 2%;
     margin-left: 5px;
     margin-right: 5px;
 }
@@ -44,12 +134,15 @@
     border-radius: 20px
 }
 .aihead{
+    
+    width: 100%;
+    position: absolute;
     color: white;
     justify-content: center;
     display: flex;
     /* text-align: center; */
     background-color: rgb(103 28 209);
-    height: 35px;
+    height: 10%;
     align-items: center;
 }
 .userin{

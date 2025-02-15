@@ -30,7 +30,7 @@ const signup = () => {
         await signInWithEmailAndPassword(auth, register.email,register.password);
         const usr=auth.currentUser;
     console.log("After delay!!!");
-      window.location.href="/main";
+      window.location.href="/";
         
     }
     catch(err){

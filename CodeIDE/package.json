@@ -9,17 +9,29 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "resolutions": {
+    "@codemirror/state": "^6.2.0",
+    "@codemirror/view": "^6.4.0",
+    "@codemirror/basic-setup": "^6.2.0"
+  },
   "dependencies": {
     "@codemirror/autocomplete": "^6.18.4",
     "@codemirror/lang-cpp": "^6.0.2",
     "@codemirror/lang-javascript": "^6.2.2",
     "@codemirror/lang-python": "^6.1.7",
+    "@codemirror/state": "^6.5.2",
     "@google/generative-ai": "^0.21.0",
+    "@lottiefiles/dotlottie-react": "^0.12.2",
+    "@uiw/codemirror-extensions-basic-setup": "^4.23.7",
+    "@uiw/codemirror-extensions-color": "^4.23.7",
+    "@uiw/codemirror-theme-console": "^4.23.8",
+    "@uiw/codemirror-themes-all": "^4.23.7",
     "@uiw/react-codemirror": "^4.23.7",
     "firebase": "^11.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-markdown": "^9.0.3",
+    "react-rnd": "^10.4.14",
     "react-toastify": "^11.0.3",
     "uuid": "^11.0.5"
   },
