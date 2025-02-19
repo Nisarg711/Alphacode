@@ -8,7 +8,7 @@ const home = () => {
         <div className="head"><h1 style={{display:'flex', gap:'8px'}}><div className='t'>AlphaCode</div><div style={{color:'white'}}>IDE</div></h1></div>
         <div className="btns">
           
-            <button className='bt' onClick={()=>{window.location.href='/login'}}><lord-icon
+            <button className='bt' onClick={()=>{window.open("/login","_blank")}}><lord-icon
     src="https://cdn.lordicon.com/rzsnbiaw.json"
     trigger="hover"
     stroke="bold" 
@@ -32,9 +32,9 @@ const home = () => {
        
         </div>
         <div className="button flex">
-        <button className='bt' onClick={()=>{window.location.href='/signup'}}>Sign Up</button>
+        <button className='bt' onClick={()=>{window.open("/signup","_blank")}}>Sign Up</button>
         <button className='bt' onClick={()=>{
-  window.location.href='/guest'
+  window.open('/guest','_blank')
 }}>Explore as Guest</button>
       </div>
       <div className="img"><img className='im' src="1.jpeg" alt="" /></div>

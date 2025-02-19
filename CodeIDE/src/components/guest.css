@@ -1,7 +1,7 @@
 .ai {
        width: 95px;
-    border-radius: 100%;
-    background-color: rgb(103 28 209);
+    border-radius: 10%;
+    background-color: white;
     display: inline-block;
     position: relative;
     right: 0px;
@@ -14,6 +14,9 @@
     right: 25px;
   }
   .runbtn{
+    justify-content: center;
+    display: flex;
+    align-items: center;
     width: 8%;
     border-radius: 10px;
     background-color: #278b27;
@@ -23,7 +26,7 @@
   }
   .bottomfix{
     background-color: #1f202f;
-    height: 100vh;
+    height: 35vh;
     /* background-color: #141429; */
     padding: 30px;
     justify-content: center;
@@ -31,17 +34,48 @@
     border-radius: 10px;
   }
   .grey{
+    overflow-y: auto;
+    padding: 10px;
+    height: 30vh;
+    position: relative;
     border-radius: 10px;
-    margin: 10px;
-    text-align: center;
-     width: 50%;
-      color: white;
+    width: 95%;
+    color: white;
     background-color: #090916;
+    margin-top: 10px;
   }
+  .cov{
+    width: 100%;
+    position: relative;
+    color: white;
+    font-size: larger;
+  }
+  .close2{
+    top: -25px;
+    font-family: fantasy;
+    right: 5px;
+    position: relative;
+    color: white;
+    font-size: 35px;
+    cursor: pointer;
+  }
+
   .navbar{
     height: 35px; 
     display: flex ; 
     justify-content: end; 
+  }
+  .download{
+    right: 15px;
+    background-color: green;
+    border-radius: 20px;
+    position: relative;
+  }
+
+
+  
+  .download:hover{
+    cursor: pointer;
   }
   .select{
     height: 30px;
@@ -68,36 +102,33 @@
   }
   
 .close{
-    display: flex;
-    align-items: center;
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    right: 0%;
+  font-size: 16px;
+  font-family: monospace;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  right: 0%;
 }
 .close:hover{
     cursor: pointer;
 }
   .ailogo{
-       width: 95px;
+    cursor: pointer;
+    width: 95px;
     border-radius: 100%;
     background-color: rgb(103 28 209);
     display: inline-block;
-    position: relative;
-    right: 0px;
-    /* position: absolute; */
-    top: 0px;
-    /* display: inline-block; */
-    /* position: absolute; */
     position: absolute;
-    top: 85%;
+    top: 90vh;
     right: 25px;
   }
 .rel{
     position: relative;
 }
 .response{
-    top: 8%;
+    top: 11%;
     padding-top: 6px;
     overflow-y: auto;
     height: 80%;
@@ -132,6 +163,9 @@
     width: 100%;
     color: white;
     border-radius: 20px
+}
+.chatbtn :hover{
+  cursor: pointer;
 }
 .aihead{
     
