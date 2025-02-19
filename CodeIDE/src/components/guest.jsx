@@ -69,15 +69,14 @@ const guest = () => {
     let mapextmim=new Map([
         ["c++",["text/x-c++src",".cpp"]],
         ["javascript",["application/javascript",".js"]],
-        ["python",["text/x-python",".py"]]
+        ["python",["text/x-python",".py"]],
+        ["c",["text/x-c",".c"]],
     ]);
 
    async function runcode(c){
     setrunning(true);
     setbottom(true);
-    console.log("Sample is: ",sample);
-    console.log("Current lang is: ",currlng,"version is ",currlngversion);
-    console.log("Input is ",input);
+
     const data= {
             "language": currlng,
             "version": currlngversion,
@@ -276,7 +275,7 @@ const guest = () => {
         }
         else if(selected=="c")
         {
-            setlng([c()]);
+            setlng([cpp()]);
             if(!fileuploaded)
             setsample(arr[0].code);
         }
