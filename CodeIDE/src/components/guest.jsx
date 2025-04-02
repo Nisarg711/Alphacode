@@ -29,7 +29,7 @@ import Markdown from 'react-markdown';
 
 
 import dracula from 'monaco-themes/themes/Dracula.json';
-import monokai from 'monaco-themes/themes/monokai.json';
+import monokai from 'monaco-themes/themes/Monokai.json';
 import github from 'monaco-themes/themes/GitHub.json';
 import cobalt from "monaco-themes/themes/Cobalt.json";
 import clouds from "monaco-themes/themes/Clouds.json";
@@ -504,7 +504,7 @@ const guest = () => {
         pauseOnHover
         theme="light"
       />
-      <div className="nav flex" style={{height:"55px",alignItems:"center"}}>
+      <div className="nav flex" style={{height:"45px",alignItems:"center"}}>
         <div className="head"><h1 style={{ display: 'flex', gap: '8px' }}><div className='t'>AlphaCode</div><div style={{ color: 'white' }}>IDE</div></h1></div>
         {/* <div className="btns" style={{top:"20px"}}>
             <button className='bt' onClick={() => { window.open("/login", "_blank") }}><lord-icon
@@ -703,7 +703,7 @@ const guest = () => {
             height: 410,
           }}
           minHeight={200}
-          maxHeight={650}
+          maxHeight={500}
           enableResizing={{
             top:true,
             bottom:false,
@@ -714,7 +714,7 @@ const guest = () => {
            className="bottomfix flex" style={{ display: !bottom ? "none" : "" }}>
 
         <div className="term cov">
-          <div className="headinginput" style={{ display: "flex", gap: "60%" }}>
+          <div className="headinginput" style={{ display: "flex", gap: "54%" }}>
             Input
             <input type="file" onChange={handlefilechange} ref={inpref} style={{ backgroundColor: "grey", borderRadius: "5px" }} />
             {/* <button onClick={()=>{openfile()}}>Open</button> */}
