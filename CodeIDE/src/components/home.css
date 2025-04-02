@@ -7,8 +7,12 @@ body{
     -webkit-text-fill-color: transparent;
     
 }
+.nav{
+    align-items: center;
+    display: flex;
+}
 .btns{
-    top: 30px;
+    
     position: absolute;
     right: 20px;
     display: flex;
@@ -139,6 +143,8 @@ body{
     }
 }
 
+
+
 .features{
     position: relative;
     display: grid;
@@ -176,3 +182,72 @@ body{
     height: 50px;
     width: 50px;
 }
+
+@media (max-width:1350px)
+{
+    .im{
+        height: 45vh;
+        width: 60vh;
+    }
+    .title{
+       font-size:30px;
+    }
+}
+
+@media (max-width:977px)
+{
+   .bottom{
+    font-size: 15px;
+   }
+    .title{
+       font-size:20px;
+    }
+}
+
+@media (max-width:750px)
+{
+    .im{
+        height: 35vh;
+        width: 50vh;
+    }
+    .features{
+        grid-template-columns: auto;
+    }
+    .para{
+        font-size: 20px;
+    }
+}
+
+@media (max-width:665px)
+{
+    .im{
+        height: 30vh;
+        width: 35vh;
+    }
+    .title{
+        font-size: 15px;
+    }
+    .button{
+       margin-left: 0px;
+       margin-right: 0px;
+       display: flex;
+       margin: auto;
+       width: 60%;
+    }
+   
+}
+
+@media (max-width:535px)
+{
+    .nav{
+       font-size: 10px;
+    }
+    .bt{
+      height: 30px;
+    }
+    .title{
+        font-size: 10px;
+    }
+   
+}
+

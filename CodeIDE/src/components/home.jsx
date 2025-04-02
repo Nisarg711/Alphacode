@@ -40,7 +40,9 @@ const home = () => {
       <div className="img"><img className='im' src="1.jpeg" alt="" /></div>
       <h1 className='why'>Why AlphaCode?</h1>
       <div className="features">
-        <div className="box"><div><h1 className="h">Supports any Programming Language
+
+        <div className="box">
+          <div><h1 className="h">Supports any Programming Language
           <div className="ic">
             <lord-icon
               style={{ height: '50px', width: '50px' }}
@@ -52,6 +54,7 @@ const home = () => {
           </div>
 
         </h1></div>
+
           <div className="para"><p>Almost 30+ coding languages are supported</p></div>
         </div>
         <div className="box"><div><h1 className="h">Vibrant themes
@@ -67,7 +70,9 @@ const home = () => {
 
         </h1></div>
           <div className="para"><p>Choose the theme that best suits you to create an adequate coding atmosphere</p></div></div>
-        <div className="box"><div ><h1 className="h">Advanced Code editor
+        <div className="box">
+          <div>
+            <h1 className="h">Advanced Code editor
           <div className="ic">
             <lord-icon
               src="https://cdn.lordicon.com/iubtdgvu.json"
@@ -77,8 +82,10 @@ const home = () => {
               colors="primary:#4f1091,secondary:#7166ee">
             </lord-icon>
           </div>
-        </h1></div>
-          <div className="para"><p>Features such as Code wrapping, bracket matching and error display</p></div></div>
+        </h1>
+        </div>
+        <div className="para">
+          <p>Features such as Code wrapping, bracket matching and error display</p></div></div>
         <div className="box">
           <div ><h1 className="h">Flexible Input options
             <div className="ic">
