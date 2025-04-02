@@ -504,7 +504,7 @@ const guest = () => {
         pauseOnHover
         theme="light"
       />
-      <div className="nav flex" style={{height:"55px"}}>
+      <div className="nav flex" style={{height:"55px",alignItems:"center"}}>
         <div className="head"><h1 style={{ display: 'flex', gap: '8px' }}><div className='t'>AlphaCode</div><div style={{ color: 'white' }}>IDE</div></h1></div>
         {/* <div className="btns" style={{top:"20px"}}>
             <button className='bt' onClick={() => { window.open("/login", "_blank") }}><lord-icon
