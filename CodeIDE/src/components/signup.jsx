@@ -44,7 +44,7 @@ const signup = () => {
                        
                          }); 
          await delay(1500);
-         window.location.href="/";
+         window.location.href="/guest";
       }
     }).catch((err)=>{
       alert(err.message);

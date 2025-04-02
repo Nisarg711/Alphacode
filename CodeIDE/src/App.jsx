@@ -5,6 +5,7 @@ import './App.css'
 import Signup from './components/signup'
 import Login from './components/login'
 import Guest from './components/guest'
+import Temp from'./components/temp2'
 import { createBrowserRouter,Route,RouterProvider, BrowserRouter } from 'react-router-dom'
 
 
@@ -25,6 +26,11 @@ function App() {
     {
       path:'/guest',
       element:<Guest/>
+    },
+    {
+      path:'/t',
+      element:<Temp/>
+
     }
 
   ])

@@ -1,14 +1,24 @@
 import React, { useEffect, useRef, useState, version } from 'react'
+import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
+import MonacoEditor from "@monaco-editor/react";
+import * as monaco from "monaco-editor";
 import CodeMirror from '@uiw/react-codemirror';
+import {autocompletion, CompletionContext} from "@codemirror/autocomplete"
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { python } from '@codemirror/lang-python';
 import { javascript } from '@codemirror/lang-javascript';
 import { cpp } from '@codemirror/lang-cpp';
 import { EditorState } from "@codemirror/state";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import {Rnd} from 'react-rnd'
 import { EditorView } from "@codemirror/view";
+
+
+import active4d from "monaco-themes/themes/Active4D.json";
+import allHallowsEve from "monaco-themes/themes/All Hallows Eve.json";
+import birdsOfParadise from "monaco-themes/themes/Birds of Paradise.json";
 import * as themes from '@uiw/codemirror-themes-all';
 import './guest.css'
 const genAI = new GoogleGenerativeAI("AIzaSyDBZfbKP4sne84EEzPLROL8cK9fbkACzQk");
@@ -18,14 +28,58 @@ import './temp'
 import Markdown from 'react-markdown';
 
 
+import dracula from 'monaco-themes/themes/Dracula.json';
+import monokai from 'monaco-themes/themes/monokai.json';
+import github from 'monaco-themes/themes/GitHub.json';
+import cobalt from "monaco-themes/themes/Cobalt.json";
+import clouds from "monaco-themes/themes/Clouds.json";
+import dawn from "monaco-themes/themes/Dawn.json";
+import cobalt2 from "monaco-themes/themes/Cobalt2.json";
+import brillianceblack from "monaco-themes/themes/Brilliance Black.json";
+import merbivore from "monaco-themes/themes/Merbivore.json"
+import dream from "monaco-themes/themes/Dreamweaver.json"
+import gitd from "monaco-themes/themes/GitHub Dark.json"
+import Nt from "monaco-themes/themes/Night Owl.json"
+import kr from "monaco-themes/themes/krTheme.json"
+import nr from "monaco-themes/themes/Nord.json"
+
+const monacoThemes = {
+  Dracula: dracula,
+  Monokai: monokai,
+  Cobalt:cobalt,
+  Clouds: clouds,
+  Dawn :dawn,
+  Cobalt2:cobalt2,
+  Brillianceblack:brillianceblack,
+  Merbivore:merbivore,
+  Dream:dream,
+  GithubDark:gitd,
+  NightOwl:Nt,
+  KrTheme:kr,
+  Nord: nr
+};
+
+
+// Default Monaco themes don't need JSON files
+const defaultThemes = ["vs-dark", "vs-light"];
 const guest = () => {
+const [fontsize,setfontsize]=useState(14);
+
+  const editorOptions = {
+    wordWrap: 'on',  // Enable word wrap
+    wrappingIndent: 'same',  // Optional: Controls the indentation of wrapped lines
+    wordWrapColumn: 80,  // Optional: Column width before wrapping occurs
+    fontSize: fontsize,  // Set font size here (example: 14px)
+  };
+  
+
     const [codelist,setcodelist]=useState([
         {
             id:"javascript",
             code:`//the hello world program\nconsole.log('Hello World');`
         },
         {
-            id:"c++",
+            id:"cpp",
             code:`// Write your C++ code here\n#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello, World!" << endl;\n    return 0;\n}`
         },
         {
@@ -35,8 +89,10 @@ const guest = () => {
         {
             id:"c",
             code:`#include <stdio.h>\nint main() {\n   // printf() displays the string inside quotation\n   printf(\"Hello, World!\");\n   return 0;\n}`
-  
-
+        },
+        {
+          id:"bash",
+          code:`#!/usr/bin/env bash \n echo "Hello World!"`
         }
     ])
     const inpref=useRef();
@@ -56,7 +112,7 @@ const guest = () => {
     const [bottom,setbottom]=useState(false);
     const [currlng,setcurrlng]=useState("cpp");
     const [currlngversion,setcurrlngversion]=useState("");
-    const [currtheme,setcurrtheme]=useState("abcdef");
+    const [currtheme,setcurrtheme]=useState("vs-dark");
     const [toggleai,settoggleai]=useState(false);
     const [chistory2,setchistory2]=useState([]);
     const [running,setrunning]=useState(false);
@@ -67,12 +123,27 @@ const guest = () => {
       })
     }
     let mapextmim=new Map([
-        ["c++",["text/x-c++src",".cpp"]],
+        ["cpp",["text/x-c++src",".cpp"]],
         ["javascript",["application/javascript",".js"]],
         ["python",["text/x-python",".py"]],
         ["c",["text/x-c",".c"]],
+        ["bash",["text/x-bash",".sh"]]
     ]);
-
+    const myCompletions = (context) => {
+      let word = context.matchBefore(/\w*/);  // Matches the word before the cursor
+      if (!word) return null;
+  
+      return {
+          from: word.from, // Replace the matched word
+          options: [
+              { label: "hello", type: "text" },
+              { label: "world", type: "text" },
+              { label: "example", type: "keyword" },
+              { label: "function", type: "keyword" }
+              
+          ]
+      };
+  };
    async function runcode(c){
     setrunning(true);
     setbottom(true);
@@ -107,8 +178,8 @@ const guest = () => {
    }
 
     async function setlang(e){
-        console.log("E is ",e.l);
-        console.log(lan);
+        
+   console.log("check2");
         setcurrlng(e.l);
         console.log("THe language set is: ",e.l);
         console.log("Version of currently selected lang: ",e.v);
@@ -117,6 +188,7 @@ const guest = () => {
     const settheme=(e)=>{
         console.log("Theme array is: ",themearray);
         setcurrtheme(e.target.value);
+        monaco.editor.setTheme(e.target.value);
         console.log("Theme being set to: ",e.target.value);
     }
  async function lngload()
@@ -127,7 +199,7 @@ const guest = () => {
         return ele;
     }));
 
-    setlanarr([{"language":"c++" ,
+    setlanarr([{"language":"cpp" ,
         "version": "10.2.0"
     },{"language": "javascript" ,
         "version": "1.32.3"
@@ -139,15 +211,7 @@ const guest = () => {
         "version": "5.2.0"
     },{"language":"typescript" ,
         "version": "1.32.3"}
-    // },{"language": ,
-    //     "version": "1.0.0",
-    // },{"language": ,
-    //     "version": "1.0.0",
-    // },{"language": ,
-    //     "version": "1.0.0",
-    // },{"language": ,
-    //     "version": "1.0.0",
-    // }
+  
     ])
     
 }
@@ -156,32 +220,67 @@ const guest = () => {
         console.log("error in loading languages");
     })
     console.log("Supported languages by Piston: ",lan);
+    console.log("I GOT: ",themes);
  }
 
 
-    useEffect(() => {
-      const validThemes = {};
-    
-        Object.keys(themes).forEach((themeName) => {
-          try {
-            EditorState.create({
-              doc: "Test",
-              extensions: [themes[themeName]],
-            });
-            validThemes[themeName] = themes[themeName]; // Store only valid themes
-          } catch (error) {
-            console.warn(`Skipping unsupported theme: ${themeName}`, error);
-          }
-        });
-    
-        setthemearray(Object.keys(validThemes)); 
-        lngload();
-       
-      }, []);
-    
-   
-    
-      
+
+
+
+const themesList = {
+ 
+  "Dracula": dracula,
+  "GitHub": github,
+};
+
+useEffect(() => {
+  if (!monaco?.editor?.defineTheme) {
+    console.error("❌ Monaco Editor Theme Registration function not found!");
+    return;
+  }
+
+  console.log("✅ Monaco Editor Found! Registering Themes...");
+
+  if (!monacoThemes || typeof monacoThemes !== "object") {
+    console.error("❌ Invalid Monaco Themes format:", monacoThemes);
+    return;
+  }
+
+  const validThemes = {};
+  Object.entries(monacoThemes).forEach(([themeName, themeConfig]) => {
+    let base = themeConfig.base || "vs-dark";
+    if (!["vs", "vs-dark", "hc-black"].includes(base)) {
+      console.warn(`⚠️ Skipping theme '${themeName}' due to invalid base: ${base}`);
+      return;
+    }
+    monaco.editor.defineTheme(themeName, { ...themeConfig, base });
+    validThemes[themeName] = { ...themeConfig, base };
+  });
+
+  console.log("🎨 Successfully Registered Themes:", Object.keys(validThemes));
+
+  setthemearray(Object.keys(validThemes));
+  lngload();
+}, []);
+
+
+useEffect(() => {
+ 
+  if (!monaco?.editor) {
+    console.error("Monaco Editor not initialized yet.");
+    return;
+  }
+
+  if (!themearray.includes(currtheme)) {
+    console.error(`🚨 Theme ${currtheme} not found in loaded themes!`);
+    return;
+  }
+
+  console.log(`🎨 Applying theme: ${currtheme}`);
+  monaco.editor.setTheme(currtheme);
+}, [currtheme]);
+
+
 
   
     const chat = model.startChat({
@@ -223,7 +322,7 @@ const guest = () => {
       
     }
 
-    const [lng,setlng]=useState([cpp()]);
+    const [lng,setlng]=useState("");
    
  
     async function findcode(str){
@@ -236,6 +335,10 @@ const guest = () => {
       console.log("RUNNN!!!");
        changelng();
     },[fileuploaded])
+
+
+
+    
     async function changelng(){
        
        let e;
@@ -254,31 +357,46 @@ const guest = () => {
        const arr=await findcode(selected);
        console.log("Array got is ",arr);
        console.log("File tag: ",fileuploaded);
-        if(selected=="c++")
+        console.log("CODE IS :",arr[0]);
+       setlng(selected);
+        if(selected=="cpp")
         {
-            setlng([cpp()]);
             if(!fileuploaded)
-            setsample(arr[0].code);
+            {
+              setsample(arr[0].code);
+              console.log("Sample will be set!!");
+            }
+            
         }
         else if(selected=="javascript")
         {
-            setlng([javascript()]);
+            // setlng([javascript()]);
             if(!fileuploaded)
             setsample(arr[0].code);
            
         }
         else if(selected=="python")
         {
-            setlng([python()]);
+            // setlng([python()]);
             if(!fileuploaded)
             setsample(arr[0].code);
         }
         else if(selected=="c")
         {
-            setlng([cpp()]);
+            // setlng([cpp()]);
             if(!fileuploaded)
             setsample(arr[0].code);
         }
+        else if(selected=="bash")
+        {
+          // setlng([bash()]);
+          if(!fileuploaded)
+          {
+            setsample(arr[0].code);
+          }
+        }
+        
+   
     }
     const onChange = React.useCallback((value, viewUpdate) => {
        
@@ -306,22 +424,35 @@ const guest = () => {
         if (file) {
           const reader = new FileReader();
       
-          reader.onload = (e) => {
+          reader.onload =async (e) => {
             const arrayBuffer = e.target.result;
             const fileName = file.name;
             const textDecoder = new TextDecoder("utf-8");
             const fileContent = textDecoder.decode(new Uint8Array(arrayBuffer));
-          
+          console.log("File uplaoded has name: ",fileName);
+          const ext="."+fileName.split(".")[1];
+          console.log("Got the extension ",ext);
           setsample(fileContent);
-          setcurrlng("c++");
-         
+         let fileType="";
+           const currext= mapextmim.forEach((v,k)=>{
+              if(v[1]==ext)
+              {
+                console.log("ehh ",v[1],v[0]);
+                fileType=v[0];
+                return k;
+              }
+            })
+           
+           await delay(2);
+            console.log("what i got:",currext);
+            setcurrlng(currext);
             const base64Data = btoa(
               new Uint8Array(arrayBuffer)
                 .reduce((data, byte) => data + String.fromCharCode(byte), "")
             );
       
-            let fileType = "text/x-c++src";
-      
+          
+            console.log("priting something !!: ",fileType," ",currlng);
             localStorage.setItem("uploadedFile", base64Data);
             localStorage.setItem("fileName", fileName);
             localStorage.setItem("fileType", fileType); 
@@ -358,19 +489,56 @@ const guest = () => {
       
       
       return (
+
         <div className='cover'>
+  <ToastContainer
+position="top-right"
+autoClose={1000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick={false}
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
           
             <div className="navbar">
+                 
                <button className='runbtn' onClick={()=>{runcode(null)}} style={{cursor:running?"not-allowed":"pointer"}}>
                 {running? <dotlottie-player src="https://lottie.host/53a36a5f-d442-4553-85d4-50bc25dcef6f/zG77oxC8SX.lottie" background="transparent" speed="5" style={{width: "40px", height: "40px"}} loop autoplay></dotlottie-player>:<></>}
+                <svg  xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
+  <path d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
+</svg>
                 Run Code</button>
-                <button className="download" onClick={()=>{
+                <div className="down">
+                <dotlottie-player onClick={()=>{
                     handleFileDownload();
-                }} style={{display:"flex", alignItems:"center"}}><dotlottie-player src="https://lottie.host/1b693c03-cd37-4d22-9cf6-fbdca05aadbb/7484EdHQyQ.lottie" background="transparent" speed="1" style={{width: "45px", height: "45px"}} ></dotlottie-player></button>
+                }} className="download" src="https://lottie.host/1b693c03-cd37-4d22-9cf6-fbdca05aadbb/7484EdHQyQ.lottie" background="transparent" speed="1" style={{width: "45px", height: "50px"}} ></dotlottie-player>
                
+                </div>
+                 
+                <div className='reload' style={{width:"35px", height:"35px"}}
+    onClick={async ()=>{console.log("Trying clearing!!! and fileuploaded is ",fileuploaded);
+     setfileuploaded(false);
+     inpref.current.value="";
+      await delay(2);
+      console.log("File up after delay: ",fileuploaded);
+      
+    }}
+   >
+     <lord-icon
+    src="https://cdn.lordicon.com/jxhgzthg.json"
+    trigger="hover"
+    colors="primary:#ffffff,secondary:#8930e8"
+    style={{width:"35px", height:"35px",right:"15px"}}
+    
+  >
+</lord-icon>
+</div>
             <div className="dropdown">
-            <input type="file" onChange={handlefilechange} ref={inpref} style={{backgroundColor:"grey", borderRadius:"5px"}} />
-            <button onClick={()=>{openfile()}}>Open</button>
+           
             <select ref={selectref}  
             className="select" onChange={(e)=>{
                 console.log("I have to change to ", JSON.parse( e.target.value));
@@ -387,45 +555,68 @@ const guest = () => {
                
      
     </select>
+ 
     <select name=""  className='select' onChange={(e)=>{
             settheme(e);
         }} id="" value={currtheme}>
-        
+          <option >🎨 Select theme</option>
+       
         {
             themearray.map((e)=>{
                 return(<option key={e} value={e}>{e}</option>)
             })
         }
     </select>
+    <select name=""  className='select' onChange={(e)=>{
+       
+          setfontsize(e.target.value);
+          console.log("CHanging too: ",fontsize);
+        }} id="" value={fontsize}>
+          <option>𝓣 Font Size</option>
+       <option value={14}>14</option>
+       <option value={18}>18</option>
+       <option value={20}>20</option>
+       <option value={22}>22</option>
+       <option value={24}>24</option>
+       <option value={26}>26</option>
+    </select>
 </div>
             </div>
         
        
 
-  <CodeMirror
-            value={sample}
+  <MonacoEditor
+            key={lng}
+           defaultValue={sample}
             height="60vh"
             width='100%'
-            theme={themes[currtheme]}
-            extensions={cpp()}
+            theme={currtheme}
+            defaultLanguage={lng}
             onChange={onChange}
+            options={editorOptions}  // Pass word wrap settings here
+            onMount={(editor, monaco) => {
+              console.log("🖥️ Monaco Editor Mounted!");
+            
+              // 🔹 Re-register themes inside onMount
+              Object.entries(monacoThemes).forEach(([themeName, themeConfig]) => {
+                if (!monaco.editor._knownThemes?.has(themeName)) {  // Prevent duplicates
+                  monaco.editor.defineTheme(themeName, { ...themeConfig, base: themeConfig.base || "vs-dark" });
+                  console.log(`Re-registered theme: ${themeName}`);
+                }
+              });
+            
+              console.log("Available Themes After Mount:", Object.keys(monaco.editor._knownThemes || {}));
+            
+              // 🔹 Ensure theme is set after registering
+              setTimeout(() => {
+                console.log(`Applying Theme: ${currtheme}`);
+                monaco.editor.setTheme(currtheme);
+              }, 100);
+            }}
+            
+            
           />
-   <div  style={{width:"35px", height:"35px",top:"10%",position:"absolute",right:"2%",cursor:"pointer"}}
-    onClick={async ()=>{console.log("Trying clearing!!! and fileuploaded is ",fileuploaded);
-     setfileuploaded(false);
-     inpref.current.value="";
-      await delay(2);
-      console.log("File up after delay: ",fileuploaded);
-      
-    }}
-   >
-     <lord-icon
-    src="https://cdn.lordicon.com/jxhgzthg.json"
-    trigger="hover"
-    colors="primary:#ffffff,secondary:#8930e8"
-    style={{width:"35px", height:"35px",top:"10%",position:"absolute",right:"2%",cursor:"pointer"}}>
-</lord-icon>
-</div>
+
 
   { (toggleai) &&  (
     
@@ -492,7 +683,12 @@ chistory2.map((e)=>{
 <div className="bottomfix flex" style={{display:!bottom?"none":""}}>
     
     <div className="term cov">
-        Input
+      <div className="headinginput" style={{ display: "flex", gap: "60%"}}>
+      Input
+        <input type="file" onChange={handlefilechange} ref={inpref} style={{backgroundColor:"grey", borderRadius:"5px"}} />
+        {/* <button onClick={()=>{openfile()}}>Open</button> */}
+      </div>
+      
     <div className="terminal grey">
     <textarea placeholder='Enter your input here!!' type="text" className='grey' value={input} onChange={(e)=>{
         setinput(e.target.value);
@@ -504,6 +700,22 @@ chistory2.map((e)=>{
    <div className="out cov">
     Output
    <div className="output grey">
+   <svg style={{cursor:"pointer"}} onClick={()=>{navigator.clipboard.writeText("hello")
+toast('Copied to clipboard!!', {
+  position: "top-right",
+  autoClose: 1500,
+  hideProgressBar: false,
+  closeOnClick: false,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: "light",
+ 
+  });
+
+   }} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi copy" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
+</svg>
     <div className="op">
         {
         output.map((ele)=>{

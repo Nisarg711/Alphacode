@@ -30,7 +30,7 @@ const signup = () => {
         await signInWithEmailAndPassword(auth, register.email,register.password);
         const usr=auth.currentUser;
     console.log("After delay!!!");
-      window.location.href="/";
+      window.location.href="/guest";
         
     }
     catch(err){
@@ -64,7 +64,7 @@ const signup = () => {
                                    
                                      }); 
                      await delay(1500);
-                     window.location.href="/";
+                     window.location.href="/guest";
         }
     }).catch((err)=>{
         console.log(err);
@@ -98,7 +98,7 @@ const signup = () => {
           <input type="text" className='ip3' value={register.password} name='password' onChange={handlechange} placeholder='Enter Password' />
         </div>
         <div className="alv">New User? <a href="/signup" target='blank'>Register here.</a></div>
-        <div className="btn3 motion2"><button className='bts' onClick={handleregister}>Sign up</button></div>
+        <div className="btn3 motion2"><button className='bts' onClick={handleregister}>Log in</button></div>
         <div className="google">
           <div className="te "><p>---------------OR---------------</p></div> 
            <div className="img3 motion2" style={{cursor:'pointer'}} onClick={()=>{login()}} > <img src="./google.png" style={{width:'200px'}} alt="" /></div>
