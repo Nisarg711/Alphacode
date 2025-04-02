@@ -35,7 +35,8 @@
     "react-markdown": "^9.0.3",
     "react-rnd": "^10.4.14",
     "react-toastify": "^11.0.3",
-    "uuid": "^11.0.5"
+    "uuid": "^11.0.5",
+     "react-router-dom": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
