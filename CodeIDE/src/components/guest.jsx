@@ -96,6 +96,18 @@ const guest = () => {
     {
       id: "bash",
       code: `#!/usr/bin/env bash \n echo "Hello World!"`
+    },
+    {
+      id:"java",
+      code:`public class Main {\n  public static void main(String[] args) {\n System.out.println("Hello World");\n  }\n}`
+    },
+    {
+      id:"crystal",
+      code:`puts "Hello, World!"`
+    },
+    {
+      id:"kotlin",
+      code:`fun main() {\n  println(\"Hello World!\")\n  println(\"I am learning Kotlin.\")\n  println(\"It is awesome!\")\n}`
     }
   ])
   const inpref = useRef();
@@ -130,7 +142,11 @@ const guest = () => {
     ["javascript", ["application/javascript", ".js"]],
     ["python", ["text/x-python", ".py"]],
     ["c", ["text/x-c", ".c"]],
-    ["bash", ["text/x-bash", ".sh"]]
+    ["bash", ["text/x-bash", ".sh"]],
+    ["java",["text/x-java",".java"]],
+    ["crystal", ["text/x-crystal", ".cr"]],
+    ["kotlin", ["text/x-kotlin", ".kt"]]
+
   ]);
   const myCompletions = (context) => {
     let word = context.matchBefore(/\w*/);  // Matches the word before the cursor
@@ -208,7 +224,12 @@ const guest = () => {
       }, {
         "language": "javascript",
         "version": "1.32.3"
-      }, {
+      },
+      {
+        "language": "java",
+        "version": "15.0.2"
+      },
+      {
         "language": "python",
         "version": "3.10.0"
       }, {
@@ -220,7 +241,16 @@ const guest = () => {
       }, {
         "language": "typescript",
         "version": "1.32.3"
+      },
+      {
+        "language": "crystal",
+        "version": "0.36.1"
+      },
+      {
+        "language": "kotlin",
+        "version": "1.8.20"
       }
+    
 
       ])
 
@@ -397,6 +427,27 @@ const guest = () => {
         setsample(arr[0].code);
       }
     }
+    else if(selected=="java")
+    {
+      if(!fileuploaded)
+      {
+        setsample(arr[0].code);
+      }
+    }
+    else if(selected=="crystal")
+    {
+      if(!fileuploaded)
+      {
+        setsample(arr[0].code);
+      }
+    }
+    else if(selected=="kotlin")
+      {
+        if(!fileuploaded)
+        {
+          setsample(arr[0].code);
+        }
+      }
 
 
   }

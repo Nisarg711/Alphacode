@@ -14,7 +14,7 @@ const home = () => {
             stroke="bold"
             className='icon'>
           </lord-icon>Login</button>
-          <button className='bt' ><lord-icon className='icon'
+          <button className='bt' onClick={()=>{window.open("/guest","_blank")}} ><lord-icon className='icon'
             src="https://cdn.lordicon.com/vgxjrbxm.json"
             trigger="hover"
             stroke="bold"></lord-icon>Explore</button>
