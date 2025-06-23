@@ -41,7 +41,7 @@ const home = () => {
       <h1 className='why'>Why AlphaCode?</h1>
       <div className="features">
 
-        <div className="box">
+        <div className="box3">
           <div><h1 className="h">Supports any Programming Language
           <div className="ic">
             <lord-icon
@@ -57,7 +57,7 @@ const home = () => {
 
           <div className="para"><p>Almost 30+ coding languages are supported</p></div>
         </div>
-        <div className="box"><div><h1 className="h">Vibrant themes
+        <div className="box3"><div><h1 className="h">Vibrant themes
           <div className="ic">
             <lord-icon
               src="https://cdn.lordicon.com/vysppwvq.json"
@@ -70,7 +70,7 @@ const home = () => {
 
         </h1></div>
           <div className="para"><p>Choose the theme that best suits you to create an adequate coding atmosphere</p></div></div>
-        <div className="box">
+        <div className="box3">
           <div>
             <h1 className="h">Advanced Code editor
           <div className="ic">
@@ -86,7 +86,7 @@ const home = () => {
         </div>
         <div className="para">
           <p>Features such as Code wrapping, bracket matching and error display</p></div></div>
-        <div className="box">
+        <div className="box3">
           <div ><h1 className="h">Flexible Input options
             <div className="ic">
               <lord-icon
@@ -101,7 +101,7 @@ const home = () => {
           </h1></div>
           <div className="para"><p>Provide input by either uploading your code files or by typing codes directly</p></div>
         </div>
-        <div className="box">
+        <div className="box3">
           <div ><h1 className="h">Customizable Workspace
             <div className="ic">
               <lord-icon
@@ -115,7 +115,7 @@ const home = () => {
           </h1></div>
           <div className="para"><p>Resizable terminal, file menu and editor sections as per user need</p></div>
         </div>
-        <div className="box">
+        <div className="box3">
           <div ><h2 className="h">Enhanced Search tools
             <div className="ic">
               <lord-icon style={{ height: '50px', width: '50px' }}
@@ -129,7 +129,7 @@ const home = () => {
           </h2></div>
           <div className="para"><p>Advanced search options to enable you to find your codes easily</p></div>
         </div>
-        <div className="box">
+        <div className="box3">
           <div ><h2 className="h">Integrated Terminal
             <div className="ic">
               <lord-icon
@@ -144,7 +144,7 @@ const home = () => {
           </h2></div>
           <div className="para"><p>Run commands and debug your code on the browser</p></div>
         </div>
-        <div className="box"><div ><h2 className="h">AI Chatbot Support
+        <div className="box3"><div ><h2 className="h">AI Chatbot Support
           <div className="ic">
             <lord-icon
               style={{ height: '50px', width: '50px' }}
@@ -157,7 +157,7 @@ const home = () => {
         </h2></div>
           <div className="para"><p>Chat with AI powered assistant to resolve your coding doubts effortlessly.</p></div>
         </div>
-        <div className="box">
+        <div className="box3">
           <div ><h2 className="h">Guest & Authenticated Access
             <div className="ic">
               <lord-icon

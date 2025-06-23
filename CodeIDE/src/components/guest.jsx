@@ -14,8 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { Rnd } from 'react-rnd'
 import { EditorView } from "@codemirror/view";
-
-
+import Button from 'react-bootstrap/Button';
 import active4d from "monaco-themes/themes/Active4D.json";
 import allHallowsEve from "monaco-themes/themes/All Hallows Eve.json";
 import birdsOfParadise from "monaco-themes/themes/Birds of Paradise.json";
@@ -43,6 +42,7 @@ import Nt from "monaco-themes/themes/Night Owl.json"
 import kr from "monaco-themes/themes/krTheme.json"
 import nr from "monaco-themes/themes/Nord.json"
 
+
 const monacoThemes = {
   Dracula: dracula,
   Monokai: monokai,
@@ -62,9 +62,14 @@ const monacoThemes = {
 
 // Default Monaco themes don't need JSON files
 const defaultThemes = ["vs-dark", "vs-light"];
+import ReactDOM from 'react-dom';
+import 'react-responsive-modal/styles.css';
+import { Modal } from 'react-responsive-modal';
 const guest = () => {
   const [fontsize, setfontsize] = useState(14);
-
+    const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const editorOptions = {
     wordWrap: 'on',  // Enable word wrap
     wrappingIndent: 'same',  // Optional: Controls the indentation of wrapped lines
@@ -211,6 +216,7 @@ const guest = () => {
     monaco.editor.setTheme(e.target.value);
     console.log("Theme being set to: ", e.target.value);
   }
+  // This link shows supported lngs and their versions: https://emkc.org/api/v2/piston/runtimes
   async function lngload() {
     const langs = await fetch("https://emkc.org/api/v2/piston/runtimes").then(async (res) => {
       const obj = await res.json();
@@ -275,14 +281,14 @@ const guest = () => {
 
   useEffect(() => {
     if (!monaco?.editor?.defineTheme) {
-      console.error("❌ Monaco Editor Theme Registration function not found!");
+      console.error("Monaco Editor Theme Registration function not found!");
       return;
     }
 
-    console.log("✅ Monaco Editor Found! Registering Themes...");
+    console.log("Monaco Editor Found! Registering Themes...");
 
     if (!monacoThemes || typeof monacoThemes !== "object") {
-      console.error("❌ Invalid Monaco Themes format:", monacoThemes);
+      console.error("Invalid Monaco Themes format:", monacoThemes);
       return;
     }
 
@@ -290,14 +296,14 @@ const guest = () => {
     Object.entries(monacoThemes).forEach(([themeName, themeConfig]) => {
       let base = themeConfig.base || "vs-dark";
       if (!["vs", "vs-dark", "hc-black"].includes(base)) {
-        console.warn(`⚠️ Skipping theme '${themeName}' due to invalid base: ${base}`);
+        console.warn(`Skipping theme '${themeName}' due to invalid base: ${base}`);
         return;
       }
       monaco.editor.defineTheme(themeName, { ...themeConfig, base });
       validThemes[themeName] = { ...themeConfig, base };
     });
 
-    console.log("🎨 Successfully Registered Themes:", Object.keys(validThemes));
+    console.log("Successfully Registered Themes:", Object.keys(validThemes));
 
     setthemearray(Object.keys(validThemes));
     lngload();
@@ -542,7 +548,7 @@ const guest = () => {
 
   return (
 
-    <div className='cover'>
+    <div className='cover2'>
       <ToastContainer
         position="top-right"
         autoClose={1000}
@@ -575,7 +581,7 @@ const guest = () => {
           <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
             <path d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z" />
           </svg>
-          Run Code</button>
+          {running?"Compiling":"Run Code"}</button>
         <div className="down">
           <dotlottie-player onClick={() => {
             handleFileDownload();
@@ -583,7 +589,7 @@ const guest = () => {
 
         </div>
 
-        <div className='reload' style={{ width: "35px", height: "35px" }}
+        <div className='reload'  style={{ width: "35px", height: "35px" ,cursor:'pointer'}}
           onClick={async () => {
             console.log("Trying clearing!!! and fileuploaded is ", fileuploaded);
             setfileuploaded(false);
@@ -662,9 +668,7 @@ const guest = () => {
         options={editorOptions}  // Pass word wrap settings here
 
         onMount={(editor, monaco) => {
-          console.log("🖥️ Monaco Editor Mounted!");
-
-          // 🔹 Re-register themes inside onMount
+          console.log("Monaco Editor Mounted!");
           Object.entries(monacoThemes).forEach(([themeName, themeConfig]) => {
             if (!monaco.editor._knownThemes?.has(themeName)) {  // Prevent duplicates
               monaco.editor.defineTheme(themeName, { ...themeConfig, base: themeConfig.base || "vs-dark" });
@@ -815,7 +819,7 @@ const guest = () => {
         }}>x</div>
       </Rnd>
       <div className="ailogo" onClick={handleai}>
-
+   {/* <div className="ailogo" onClick={handleShow}> */}
 
         <DotLottieReact
           style={{ height: '100px', width: '100px' }}

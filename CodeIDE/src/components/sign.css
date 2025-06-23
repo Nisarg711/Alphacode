@@ -29,30 +29,20 @@
 }
 
 .container3{
-    animation: bg 0.9s;
+    background-color: rgb(201 164 233);
+    animation: bg 1s;
 }
 @keyframes bg{
     from{
-        background-color: rgb(228, 214, 239);
+        opacity: 0%;
     }
     to{
-        background-color: rgb(201 164 233);
+        opacity: 100%;
     }
 }
 
-.img4{
-  animation: move 1s;
-}
-@keyframes move {
-   from{
-    transform: translateX(-75%);
-    display: none;
-   }
-   to{
-    transform: translateX((0%));
-    display: block;
-   }
-}
+
+
 .motion{
     animation: movefr 1s;
 }

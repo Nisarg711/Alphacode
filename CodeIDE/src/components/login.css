@@ -17,17 +17,17 @@
     border-radius: 20px;
 }
 .container2{
-    animation: bg2 0.6s;
+     background: rgb(247, 188, 214);
+    background: radial-gradient(circle, rgb(249, 196, 219) 100%, rgba(166,201,244,1) 100%);
+    animation: bg2 1s;
 }
 @keyframes bg2{
     from{
-        background: rgb(226, 169, 194);
-        background: radial-gradient(circle, rgb(240, 197, 216) 100%, rgba(166,201,244,1) 100%);
+       opacity: 0%;
        
     }
     to{
-        background: rgb(247, 188, 214);
-        background: radial-gradient(circle, rgb(249, 196, 219) 100%, rgba(166,201,244,1) 100%);
+       opacity: 100%;
       
     }
 }

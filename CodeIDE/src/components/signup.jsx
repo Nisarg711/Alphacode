@@ -10,7 +10,7 @@ import './sign.css'
 
 
 const signup = () => {
-  const [register,setregister]=useState({name:"", email:"", password:""});
+  const [register,setregister]=useState({username:"", email:"", password:""});
 
   const handlechange=(e)=>{
     setregister({...register,[e.target.name]:e.target.value});
