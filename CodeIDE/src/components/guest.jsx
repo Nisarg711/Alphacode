@@ -11,6 +11,7 @@ import { cpp } from '@codemirror/lang-cpp';
 import { EditorState } from "@codemirror/state";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Copy } from 'lucide-react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { Rnd } from 'react-rnd'
 import { EditorView } from "@codemirror/view";
@@ -66,6 +67,7 @@ import ReactDOM from 'react-dom';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 const guest = () => {
+  const [date,setdate]=useState(new Date());
   const [fontsize, setfontsize] = useState(14);
     const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -129,7 +131,7 @@ const guest = () => {
   const [sent, setsent] = useState(false);
   const [reply, setreply] = useState("");
   const [chistory, sethistory] = useState([])
-  const [bottom, setbottom] = useState(false);
+  const [bottom, setbottom] = useState(true);
   const [currlng, setcurrlng] = useState("cpp");
   const [currlngversion, setcurrlngversion] = useState("");
   const [currtheme, setcurrtheme] = useState("vs-dark");
@@ -345,8 +347,8 @@ const guest = () => {
   const writingmsg = (e) => {
     setuserinput(e.target.value);
   }
-  const sendmessage = async () => {
-
+  const sendmessage = async (e) => {
+    e.preventDefault();
     setloading(true);
     if (userinput == "") {
       console.log("NO message passed");
@@ -544,7 +546,9 @@ const guest = () => {
       alert("No file found in localStorage.");
     }
   };
-
+useEffect(()=>{
+  console.log("datess",date.toLocaleDateString());
+},[date])
 
   return (
 
@@ -713,10 +717,34 @@ const guest = () => {
 
               chistory2.map((e) => {
                 return (
-                  e.role == "user" ? (<div className="userin"><p key={uuid()}  >User: {e.parts.map((ele) => {
+                  e.role == "user" ? (  <div className='userin'>
+                  <div className="usertemp">
+<div className="uslg">
+                  <lord-icon
+    src="https://cdn.lordicon.com/rzsnbiaw.json"
+    trigger="hover"
+    stroke="bold">
+</lord-icon>
+                  </div>
+                  <div className="uscontain">
+                    <div className="msg">
+                      <p key={uuid()}>{e.parts.map((ele) => {
                     return ele.text;
 
-                  })}</p></div>) : (
+                  })}</p> 
+                    </div>
+                  <div className="time" style={{fontSize:'small',display:'flex'}}>
+                    {date.toLocaleDateString()}
+                    <div className="copy" style={{position:'relative',left:'25%'}}>
+                     <Copy style={{height:'10px',width:'10px'}}/> Copy
+                    </div>
+                   
+                  </div>
+                  </div>
+                 </div>
+                  </div>
+
+) : (
 
                     <div key={uuid()} className="aiin"><Markdown>
                       {e.parts.map((ele) => {
@@ -730,7 +758,39 @@ const guest = () => {
             }
             {
               (loading) && (<>
-                <div className='userin'><p>User: {userinput}</p></div>
+                {/* <div className='userin'><p>User: {userinput}</p></div> */}
+
+
+
+
+
+
+
+
+                    <div className='userin'>
+                  <div className="usertemp">
+                  <div className="uslg">
+                  <lord-icon
+    src="https://cdn.lordicon.com/rzsnbiaw.json"
+    trigger="hover"
+    stroke="bold">
+</lord-icon>
+                  </div>
+                  <div className="uscontain">
+                    <div className="msg">
+                      <p>{userinput}</p> 
+                    </div>
+                  <div className="time" style={{fontSize:'small',display:'flex'}}>
+                    {date.toLocaleDateString()}
+                    <div className="copy" style={{position:'relative',left:'25%'}}>
+                     <Copy style={{height:'10px',width:'10px'}}/> Copy
+                    </div>
+                   
+                  </div>
+                  </div>
+                 </div>
+                  </div>
+                  
                 <div className="aiin"><p>AI typing</p></div>
               </>
 
@@ -738,22 +798,26 @@ const guest = () => {
               )
             }
           </div>
-          <div className="inp">
+          <form action="" onSubmit={sendmessage}>
+             <div className="inp">
 
             <input type="text" className='type' value={userinput} onChange={writingmsg} />
             <div className="chatbtn">
+              
               <button onClick={sendmessage} style={{ width: '100%' }}>Search</button>
             </div>
 
 
           </div>
+          </form>
+         
         </Rnd>
       )
 
       }
       <Rnd    default={{
             x: 0,
-            y: (window.innerHeight - 410) / 2,
+            y: (window.innerHeight) / 2,
             width: "100%",
             height: 410,
           }}
