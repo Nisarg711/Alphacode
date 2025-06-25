@@ -942,7 +942,7 @@ useEffect(()=>{
 
 
 
-    </div>:<div style={{color:'black',height:'100vh',backgroundColor:'white'}}>Its a mobile</div>
+    </div>:<div style={{color:'black',height:'100vh',backgroundColor:'white'}}>{alert('This website is only supported in desktop!!')}</div>
 }
      </>
   );
