@@ -11,7 +11,7 @@ import { cpp } from '@codemirror/lang-cpp';
 import { EditorState } from "@codemirror/state";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Copy } from 'lucide-react';
+import { Copy,BotMessageSquare } from 'lucide-react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { Rnd } from 'react-rnd'
 import { EditorView } from "@codemirror/view";
@@ -26,7 +26,7 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 import { v4 as uuid } from 'uuid'
 import './temp'
 import Markdown from 'react-markdown';
-
+import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
 
 import dracula from 'monaco-themes/themes/Dracula.json';
 import monokai from 'monaco-themes/themes/Monokai.json';
@@ -551,8 +551,9 @@ useEffect(()=>{
 },[date])
 
   return (
-
-    <div className='cover2'>
+    <>
+   
+      { isBrowser?<div className='cover2'>
       <ToastContainer
         position="top-right"
         autoClose={1000}
@@ -699,9 +700,12 @@ useEffect(()=>{
           default={{
             x: (window.innerWidth - 500) / 2,
             y: (window.innerHeight - 410) / 2,
-            width: 500,
-            height: 410,
+            width: 600,
+            height: 510,
           }}
+          minHeight={400}
+          minWidth={400}
+          maxWidth={850}
           className="ai"
           bounds="parent"
           style={{ zIndex: 9999 }}
@@ -734,8 +738,8 @@ useEffect(()=>{
                   })}</p> 
                     </div>
                   <div className="time" style={{fontSize:'small',display:'flex'}}>
-                    {date.toLocaleDateString()}
-                    <div className="copy" style={{position:'relative',left:'25%'}}>
+                    {date.toLocaleDateString()} {date.toLocaleTimeString()}
+                    <div className="copy" style={{position:'relative'}}>
                      <Copy style={{height:'10px',width:'10px'}}/> Copy
                     </div>
                    
@@ -746,12 +750,48 @@ useEffect(()=>{
 
 ) : (
 
-                    <div key={uuid()} className="aiin"><Markdown>
+                 
+                  <div className="aiin"  key={uuid()} >
+                  <div className="aitemp">
+                    <div className="ailg">
+                        <BotMessageSquare size={32} color="#a819b3" strokeWidth={0.75} absoluteStrokeWidth />
+                    </div>
+                    <div className="aicontain">
+                      <div className="msg">
+                        <Markdown>
                       {e.parts.map((ele) => {
 
                         return ele.text;
                       }).join('')}
-                    </Markdown></div>)
+                    </Markdown>
+                      </div>
+                       <div className="time" style={{fontSize:'small',display:'flex'}}>
+                    {date.toLocaleDateString()} {date.toLocaleTimeString()}
+                    <div className="copy" style={{position:'relative'}}>
+                     <Copy style={{height:'10px',width:'10px'}}/> Copy
+                    </div>
+                   
+                  </div>
+                    </div>
+                  </div>
+                </div>
+                  
+                    
+                 
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  )
+
+
+             
+
+
 
                 )
               })
@@ -781,8 +821,8 @@ useEffect(()=>{
                       <p>{userinput}</p> 
                     </div>
                   <div className="time" style={{fontSize:'small',display:'flex'}}>
-                    {date.toLocaleDateString()}
-                    <div className="copy" style={{position:'relative',left:'25%'}}>
+                    {date.toLocaleDateString()} {date.toLocaleTimeString()}
+                    <div className="copy" style={{position:'relative',cursor:'pointer'}}>
                      <Copy style={{height:'10px',width:'10px'}}/> Copy
                     </div>
                    
@@ -791,7 +831,14 @@ useEffect(()=>{
                  </div>
                   </div>
                   
-                <div className="aiin"><p>AI typing</p></div>
+                <div className="aiin"><dotlottie-player
+  src="https://lottie.host/5554e7d1-6dc7-4c21-a68e-bd042f2a4d75/acv1fHxCTm.lottie"
+  background="transparent"
+  style={{height:'40px',width:'40px'}}
+  loop
+  autoplay
+></dotlottie-player></div>
+                
               </>
 
 
@@ -895,7 +942,9 @@ useEffect(()=>{
 
 
 
-    </div>
+    </div>:<div>Its a mobile</div>
+}
+     </>
   );
 }
 

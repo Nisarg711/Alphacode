@@ -212,11 +212,12 @@
     top: 11%;
     padding-top: 6px;
     overflow-y: auto;
-    height: 80%;
+    height: 70%;
     position: relative;
     scroll-behavior: smooth;
 }
 .inp{
+  margin: 10px;
   bottom: 20px;
     width: 96%;
     border-radius: 10px;
@@ -269,17 +270,45 @@
     width: 88%;
     margin-bottom: 20px;
 }
+.aiin{
+      margin-top: 20px;
+    margin-left: 25px;
+    color: white;
+    border-radius: 10px;
+    width: 88%;
+    margin-bottom: 20px;
+}
 .usertemp{
   display: flex;
     flex-direction: row-reverse;
     gap: 2%;
 }
-.uslg{
+.aitemp{
+    display: flex;
+    flex-direction: row;
+    gap: 2%;
+}
+.uslg, .ailg{
       height: fit-content;
   background-color: blue;
 }
 
+ .ailg{
+      height: fit-content;
+  background-color: gainsboro;
+}
 .uscontain{
+    color: black;
+    flex-direction: column;
+    display: flex;
+    gap: 10px;
+    padding: 3%;
+    width: 40%;
+    background-color: rgb(15 20 241 / 53%);
+    border-radius: 9px 0px 9px 9px;
+    border: 2.5px solid blue;
+}
+.aicontain{
       color: black;
      flex-direction: column;
     display: flex;
@@ -287,10 +316,17 @@
     padding: 3%;
     width: 40%;
     background-color: rgb(207 40 228 / 39%);
-    border-radius: 9px 0px 9px 9px;
+    border-radius: 0px 9px 9px 9px;
     border: 2.5px solid blue
 }
+.copy{
+    align-items: center;
+    gap: 5px;
+    display: flex;
+    position: relative;
+}
 .time{
+  color: gainsboro;
       align-items: center;
     gap: 20%;
     font-size: small;
@@ -298,15 +334,3 @@
 ;
 }
 
-.aiin{
-    flex-flow: column;
-    flex-direction: column;
-    padding: 5px;
-    align-items: center;
-    display: flex;
-    border-radius: 10px;
-    margin-left: 10px;
-    margin-right: 15px;
-    background: #bcb7b7;
-    margin-bottom: 20px;
-}
