@@ -942,7 +942,7 @@ useEffect(()=>{
 
 
 
-    </div>:<div>Its a mobile</div>
+    </div>:<div style={{color:'white'}}>Its a mobile</div>
 }
      </>
   );
