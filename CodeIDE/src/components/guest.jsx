@@ -155,11 +155,13 @@ const guest = () => {
         "version": "1.8.20"
       }
       ]);
+
+
      const [lan2, setlanarr2] = useState([{
         "l": "cpp",
         "v": "10.2.0"
       }, {
-        "l": "js",
+        "l": "javascript",
         "v": "1.32.3"
       },
       {
@@ -167,24 +169,24 @@ const guest = () => {
         "v": "15.0.2"
       },
       {
-        "l": "py",
+        "l": "python",
         "v": "3.10.0"
       }, {
         "l": "c",
         "v": "10.2.0"
       }, {
-        "l": "sh",
+        "l": "bash",
         "v": "5.2.0"
       }, {
-        "l": "ts",
+        "l": "typescript",
         "v": "1.32.3"
       },
       {
-        "l": "cr",
+        "l": "crystal",
         "v": "0.36.1"
       },
       {
-        "l": "kt",
+        "l": "kotlin",
         "v": "1.8.20"
       }
       ]);
@@ -521,15 +523,21 @@ const guest = () => {
         })
           console.log("Sample set !!! and extension is: ",ext," and file type: ",fileType);
            console.log("optionsss are: ",selectref.current.options);
-  
+          let check=true;
            for (const ele of lan2) {
             if(ele.l==currext)
             {
               selectref.current.value=JSON.stringify(ele);
               console.log("Gottcha: ",JSON.stringify(ele));
+              check=false;
+              break;
             }
            }
-
+            if(check)
+            {
+              alert("we don't support execution of this kind of files");
+              return;
+            }
         await delay(2);
         console.log("what i got:", currext);
         setcurrlng(currext);
