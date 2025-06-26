@@ -122,8 +122,73 @@ const guest = () => {
   const [sample, setsample] = useState("");      //THis will be input
   const [output, setoutput] = useState([]);       //This is output
   const [input, setinput] = useState("");
-  const [code, setCode] = useState(""); // Default code snippet
-  const [lan, setlanarr] = useState([]);
+  const [lan, setlanarr] = useState([{
+        "language": "cpp",
+        "version": "10.2.0"
+      }, {
+        "language": "javascript",
+        "version": "1.32.3"
+      },
+      {
+        "language": "java",
+        "version": "15.0.2"
+      },
+      {
+        "language": "python",
+        "version": "3.10.0"
+      }, {
+        "language": "c",
+        "version": "10.2.0"
+      }, {
+        "language": "bash",
+        "version": "5.2.0"
+      }, {
+        "language": "typescript",
+        "version": "1.32.3"
+      },
+      {
+        "language": "crystal",
+        "version": "0.36.1"
+      },
+      {
+        "language": "kotlin",
+        "version": "1.8.20"
+      }
+      ]);
+     const [lan2, setlanarr2] = useState([{
+        "l": "cpp",
+        "v": "10.2.0"
+      }, {
+        "l": "js",
+        "v": "1.32.3"
+      },
+      {
+        "l": "java",
+        "v": "15.0.2"
+      },
+      {
+        "l": "py",
+        "v": "3.10.0"
+      }, {
+        "l": "c",
+        "v": "10.2.0"
+      }, {
+        "l": "sh",
+        "v": "5.2.0"
+      }, {
+        "l": "ts",
+        "v": "1.32.3"
+      },
+      {
+        "l": "cr",
+        "v": "0.36.1"
+      },
+      {
+        "l": "kt",
+        "v": "1.8.20"
+      }
+      ]);
+    
   const [themearray, setthemearray] = useState([]);
   const [userchat, setuser] = useState([]);
   const [loading, setloading] = useState(false);
@@ -144,6 +209,7 @@ const guest = () => {
       setTimeout(resolve, t * 1000);
     })
   }
+  const [lng, setlng] = useState("");
   let mapextmim = new Map([
     ["cpp", ["text/x-c++src", ".cpp"]],
     ["javascript", ["application/javascript", ".js"]],
@@ -152,8 +218,8 @@ const guest = () => {
     ["bash", ["text/x-bash", ".sh"]],
     ["java",["text/x-java",".java"]],
     ["crystal", ["text/x-crystal", ".cr"]],
-    ["kotlin", ["text/x-kotlin", ".kt"]]
-
+    ["kotlin", ["text/x-kotlin", ".kt"]],
+    ["typescript", ["application/x-typescript", ".ts"]]
   ]);
   const myCompletions = (context) => {
     let word = context.matchBefore(/\w*/);  // Matches the word before the cursor
@@ -219,58 +285,6 @@ const guest = () => {
     console.log("Theme being set to: ", e.target.value);
   }
   // This link shows supported lngs and their versions: https://emkc.org/api/v2/piston/runtimes
-  async function lngload() {
-    const langs = await fetch("https://emkc.org/api/v2/piston/runtimes").then(async (res) => {
-      const obj = await res.json();
-      setlanarr(obj.map((ele, idx) => {
-        return ele;
-      }));
-
-      setlanarr([{
-        "language": "cpp",
-        "version": "10.2.0"
-      }, {
-        "language": "javascript",
-        "version": "1.32.3"
-      },
-      {
-        "language": "java",
-        "version": "15.0.2"
-      },
-      {
-        "language": "python",
-        "version": "3.10.0"
-      }, {
-        "language": "c",
-        "version": "10.2.0"
-      }, {
-        "language": "bash",
-        "version": "5.2.0"
-      }, {
-        "language": "typescript",
-        "version": "1.32.3"
-      },
-      {
-        "language": "crystal",
-        "version": "0.36.1"
-      },
-      {
-        "language": "kotlin",
-        "version": "1.8.20"
-      }
-    
-
-      ])
-
-    }
-
-    ).catch((err) => {
-      console.log("error in loading languages");
-    })
-    console.log("Supported languages by Piston: ", lan);
-    console.log("I GOT: ", themes);
-  }
-
 
 
 
@@ -308,7 +322,6 @@ const guest = () => {
     console.log("Successfully Registered Themes:", Object.keys(validThemes));
 
     setthemearray(Object.keys(validThemes));
-    lngload();
   }, []);
 
 
@@ -369,7 +382,7 @@ const guest = () => {
 
   }
 
-  const [lng, setlng] = useState("");
+  
 
 
   async function findcode(str) {
@@ -480,32 +493,47 @@ const guest = () => {
   };
   //text/x-c++src
   const handlefilechange = (event) => {
+   
     const file = event.target.files[0];
     setfileuploaded(true);
     if (file) {
       const reader = new FileReader();
 
       reader.onload = async (e) => {
+        setlng("");
+        setcurrlng("");
         const arrayBuffer = e.target.result;
         const fileName = file.name;
         const textDecoder = new TextDecoder("utf-8");
         const fileContent = textDecoder.decode(new Uint8Array(arrayBuffer));
-        console.log("File uplaoded has name: ", fileName);
+        // console.log("File uplaoded has name: ", fileName);
         const ext = "." + fileName.split(".")[1];
-        console.log("Got the extension ", ext);
+        // console.log("Got the extension ", ext);
         setsample(fileContent);
         let fileType = "";
-        const currext = mapextmim.forEach((v, k) => {
+        let currext;
+         mapextmim.forEach((v, k) => {
           if (v[1] == ext) {
             console.log("ehh ", v[1], v[0]);
             fileType = v[0];
-            return k;
+            currext=k;
           }
         })
+          console.log("Sample set !!! and extension is: ",ext," and file type: ",fileType);
+           console.log("optionsss are: ",selectref.current.options);
+  
+           for (const ele of lan2) {
+            if(ele.l==currext)
+            {
+              selectref.current.value=JSON.stringify(ele);
+              console.log("Gottcha: ",JSON.stringify(ele));
+            }
+           }
 
         await delay(2);
         console.log("what i got:", currext);
         setcurrlng(currext);
+        setlng(currext);
         const base64Data = btoa(
           new Uint8Array(arrayBuffer)
             .reduce((data, byte) => data + String.fromCharCode(byte), "")
