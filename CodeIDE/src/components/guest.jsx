@@ -21,8 +21,8 @@ import allHallowsEve from "monaco-themes/themes/All Hallows Eve.json";
 import birdsOfParadise from "monaco-themes/themes/Birds of Paradise.json";
 import * as themes from '@uiw/codemirror-themes-all';
 import './guest.css'
-const genAI = new GoogleGenerativeAI("AIzaSyDBZfbKP4sne84EEzPLROL8cK9fbkACzQk");
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const genAI = new GoogleGenerativeAI("AIzaSyB1UcLuIcoAPVnIop9hILPawPLxu3WH3nM");
+const model = genAI.getGenerativeModel({ model: "models/gemini-1.5-flash" });
 import { v4 as uuid } from 'uuid'
 import './temp'
 import Markdown from 'react-markdown';
@@ -205,6 +205,7 @@ const guest = () => {
   const [toggleai, settoggleai] = useState(false);
   const [chistory2, setchistory2] = useState([]);
   const [running, setrunning] = useState(false);
+  const [lastRequestTime, setLastRequestTime] = useState(0);
   const selectref = useRef();
   async function delay(t) {
     return new Promise((resolve, reject) => {
@@ -364,23 +365,50 @@ const guest = () => {
   }
   const sendmessage = async (e) => {
     e.preventDefault();
+    
+    // Check cooldown (60 seconds for free tier)
+    const now = Date.now();
+    const timeSinceLastRequest = now - lastRequestTime;
+    const COOLDOWN_MS = 60000; // 60 seconds
+    
+    if (timeSinceLastRequest < COOLDOWN_MS && lastRequestTime > 0) {
+      const waitSeconds = Math.ceil((COOLDOWN_MS - timeSinceLastRequest) / 1000);
+      alert(`Please wait ${waitSeconds} seconds before sending another message. Google's free tier has strict rate limits.`);
+      return;
+    }
+    
     setloading(true);
     if (userinput == "") {
       console.log("NO message passed");
       setloading(false);
       return;
     }
-    // sethistory([...chistory,{role:"user",parts:[{text:userinput}]}]);    //being set implicitly
     setsent(true);
     console.log("SENDING MESSAge", userinput);
-    const result = await chat.sendMessage(userinput);
-    setuserinput("");
-    setloading(false);
-    console.log(result.response.text());
+    
+    try {
+      const result = await chat.sendMessage(userinput);
+      const responseText = result.response.text();
+      setuserinput("");
+      console.log(responseText);
+      
+      // Update last request time
+      setLastRequestTime(Date.now());
 
-    // sethistory([...chistory,{role:"model",parts:[{text:result.response.text()}]}]);   //being set implicitly
-
-    setchistory2([...chistory]);
+      // Get the updated history from the chat
+      const updatedHistory = await chat.getHistory();
+      sethistory(updatedHistory);
+      setchistory2(updatedHistory);
+    } catch (error) {
+      console.error("AI Error:", error);
+      if (error.message && error.message.includes('quota')) {
+        alert("Google AI quota exceeded. Free tier allows very limited requests. Please:\n\n1. Wait 60 seconds between messages\n2. Enable billing at console.cloud.google.com\n3. Or use a different API service");
+      } else {
+        alert("AI Assistant error: " + (error.message || "Unknown error"));
+      }
+    } finally {
+      setloading(false);
+    }
 
   }
 
